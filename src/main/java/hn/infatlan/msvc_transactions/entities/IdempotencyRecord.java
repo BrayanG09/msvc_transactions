@@ -3,7 +3,9 @@ package hn.infatlan.msvc_transactions.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,7 +47,7 @@ public class IdempotencyRecord {
     @Column(name = "request_hash", nullable = false, length = 64)
     private String requestHash;
 
-    @Lob
+    @JdbcTypeCode(SqlTypes.LONGNVARCHAR)
     @Column(name = "response_payload", nullable = false)
     private String responsePayload;
 

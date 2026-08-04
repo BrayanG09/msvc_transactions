@@ -33,7 +33,7 @@ public class Client extends AuditEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "identity_number", nullable = false, unique = true, length = 30)
+    @Column(name = "identity_number", nullable = false, unique = true, length = 13)
     private String identityNumber;
 
     @Column(name = "full_name", nullable = false, length = 150)

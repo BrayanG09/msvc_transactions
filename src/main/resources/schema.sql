@@ -51,7 +51,7 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'clients')
 BEGIN
     CREATE TABLE clients (
         id              UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-        identity_number NVARCHAR(30)     NOT NULL,
+        identity_number NVARCHAR(13)     NOT NULL,
         full_name       NVARCHAR(150)    NOT NULL,
         email           NVARCHAR(150)    NULL,
         status_id       UNIQUEIDENTIFIER NOT NULL,
@@ -74,7 +74,7 @@ BEGIN
         account_number NVARCHAR(34)     NOT NULL,
         client_id      UNIQUEIDENTIFIER NOT NULL,
         balance        DECIMAL(19,4)    NOT NULL CONSTRAINT ck_accounts_balance_non_negative CHECK (balance >= 0),
-        currency       CHAR(3)          NOT NULL CONSTRAINT df_accounts_currency DEFAULT ('HNL'),
+        currency       NVARCHAR(3)          NOT NULL CONSTRAINT df_accounts_currency DEFAULT ('HNL'),
         status_id      UNIQUEIDENTIFIER NOT NULL,
         version        BIGINT           NOT NULL CONSTRAINT df_accounts_version DEFAULT (0),
         created_by     NVARCHAR(100)    NOT NULL,
