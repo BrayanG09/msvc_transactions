@@ -1,0 +1,51 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: msvc-transactions-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+    ports:
+      - "${MSSQL_PORT:-1433}:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    networks:
+      - msvc-transactions-net
+
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: msvc-transactions-db-init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      MSSQL_HOST: sqlserver
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_DATABASE: ${MSSQL_DATABASE:-msvc_transactions}
+      MSSQL_APP_USER: ${SPRING_DATASOURCE_USERNAME}
+      MSSQL_APP_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./docker/sqlserver/init-db.sh:/scripts/init-db.sh:ro
+      - ./src/main/resources/schema.sql:/scripts/schema.sql:ro
+      - ./src/main/resources/data.sql:/scripts/data.sql:ro
+    entrypoint: ["/bin/bash", "/scripts/init-db.sh"]
+    restart: "no"
+    networks:
+      - msvc-transactions-net
+
+volumes:
+  sqlserver_data:
+
+networks:
+  msvc-transactions-net:
+    name: msvc-transactions-net
