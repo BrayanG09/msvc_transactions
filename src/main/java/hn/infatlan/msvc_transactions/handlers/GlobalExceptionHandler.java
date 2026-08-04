@@ -95,8 +95,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Validar de @RequestParam y @PathVariable
+     * Validaciones de @RequestParam, @PathVariable y @RequestHeader
      */
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<Object> handleJakartaConstraintViolationException(
+            jakarta.validation.ConstraintViolationException ex) {
+        ResponseCodeCatalog codeCatalog = ResponseCodeCatalog.INVALID_PARAMETERS;
+
+        String messageError = ex.getConstraintViolations().stream()
+                .map(jakarta.validation.ConstraintViolation::getMessage)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(codeCatalog.description());
+
+        ResponseDTO<HashMap<Object, Object>> response = ResponseDTO.error(codeCatalog, new HashMap<>())
+                .withCustomMessage(messageError);
+
+        return ResponseEntity.status(codeCatalog.getHttpCode()).body(response);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
         ResponseCodeCatalog codeCatalog = ResponseCodeCatalog.INVALID_PARAMETERS;
@@ -118,7 +135,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InfatlanTransactionException.class)
-    public ResponseEntity<Object> handleFicohsaInsuranceException(InfatlanTransactionException ex) {
+    public ResponseEntity<Object> handleInfatlanTransactionException(InfatlanTransactionException ex) {
         ResponseDTO<HashMap<Object, Object>> response = ResponseDTO.error(ex.getCodeCatalog(), new HashMap<>());
 
         if (!Objects.isNull(ex.getWithCustomMessage()) && !ex.getWithCustomMessage().isBlank()) {

@@ -1,7 +1,9 @@
 package hn.infatlan.msvc_transactions.exceptions;
 
 import hn.infatlan.msvc_transactions.enums.LevelLogCatalog;
+import hn.infatlan.msvc_transactions.enums.ProcessLogCatalog;
 import hn.infatlan.msvc_transactions.enums.ProjectsCatalog;
+import hn.infatlan.msvc_transactions.enums.TypeLogCatalog;
 import hn.infatlan.msvc_transactions.interfaces.CodeCatalog;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +18,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class InfatlanTransactionException extends RuntimeException {
     private ProjectsCatalog project;
-    private String type;
-    private String process;
+    private TypeLogCatalog type;
+    private ProcessLogCatalog process;
     private LevelLogCatalog level;
     private CodeCatalog codeCatalog;
     private String userIdentifier;

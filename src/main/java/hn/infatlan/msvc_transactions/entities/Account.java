@@ -36,7 +36,7 @@ public class Account extends AuditEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "account_number", nullable = false, unique = true, length = 34)
+    @Column(name = "account_number", nullable = false, unique = true, length = 12)
     private String accountNumber;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

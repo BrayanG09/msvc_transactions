@@ -13,6 +13,8 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
 
     Optional<Account> findByAccountNumber(String accountNumber);
 
+    boolean existsByAccountNumber(String accountNumber);
+
     @Query("""
             SELECT a FROM Account a
             JOIN FETCH a.client

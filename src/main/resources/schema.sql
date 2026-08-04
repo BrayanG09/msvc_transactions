@@ -71,7 +71,7 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'accounts')
 BEGIN
     CREATE TABLE accounts (
         id             UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
-        account_number NVARCHAR(34)     NOT NULL,
+        account_number NVARCHAR(12)     NOT NULL,
         client_id      UNIQUEIDENTIFIER NOT NULL,
         balance        DECIMAL(19,4)    NOT NULL CONSTRAINT ck_accounts_balance_non_negative CHECK (balance >= 0),
         currency       NVARCHAR(3)          NOT NULL CONSTRAINT df_accounts_currency DEFAULT ('HNL'),

@@ -40,7 +40,7 @@ public class ResponseDTO<T> {
         .build();
   }
 
-  public static <T> ResponseDTO<T> error(CodeCatalog codeCatalog, T data) {
+  public static <T> ResponseDTO<T> of(CodeCatalog codeCatalog, T data) {
     return ResponseDTO.<T>builder()
         .code(codeCatalog.code())
         .message(codeCatalog.message())
@@ -48,6 +48,10 @@ public class ResponseDTO<T> {
         .timestamp(LocalDateTime.now())
         .data(data)
         .build();
+  }
+
+  public static <T> ResponseDTO<T> error(CodeCatalog codeCatalog, T data) {
+    return of(codeCatalog, data);
   }
 
   public ResponseDTO<T> withCustomMessage(String customMessage) {
