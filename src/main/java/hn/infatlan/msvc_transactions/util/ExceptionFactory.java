@@ -34,6 +34,7 @@ public final class ExceptionFactory {
                 .process(process)
                 .level(LevelLogCatalog.WARN)
                 .codeCatalog(codeCatalog)
+                .userIdentifier(CorrelationContext.getUserIdentifier())
                 .withCustomMessage(customMessage)
                 .build();
     }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import hn.infatlan.msvc_transactions.enums.ResponseCodeCatalog;
 import hn.infatlan.msvc_transactions.interfaces.CodeCatalog;
+import hn.infatlan.msvc_transactions.util.CorrelationContext;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,8 @@ public class ResponseDTO<T> {
 
   private LocalDateTime timestamp;
 
+  private String correlationId;
+
   private T data;
 
   public static <T> ResponseDTO<T> success(T data) {
@@ -36,6 +39,7 @@ public class ResponseDTO<T> {
         .message(codeCatalog.message())
         .description(codeCatalog.description())
         .timestamp(LocalDateTime.now())
+        .correlationId(CorrelationContext.getCorrelationId())
         .data(data)
         .build();
   }
@@ -46,6 +50,7 @@ public class ResponseDTO<T> {
         .message(codeCatalog.message())
         .description(codeCatalog.description())
         .timestamp(LocalDateTime.now())
+        .correlationId(CorrelationContext.getCorrelationId())
         .data(data)
         .build();
   }

@@ -132,3 +132,32 @@ BEGIN
     );
 END
 GO
+
+-- Application async logs (observability)
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'application_logs')
+BEGIN
+    CREATE TABLE application_logs (
+        log_id                   UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+        correlation_id           NVARCHAR(64)     NULL,
+        project                  NVARCHAR(100)    NULL,
+        type                     NVARCHAR(50)     NULL,
+        process                  NVARCHAR(100)    NULL,
+        level                    NVARCHAR(20)     NULL,
+        code                     NVARCHAR(50)     NULL,
+        message                  NVARCHAR(255)    NULL,
+        description              NVARCHAR(MAX)    NULL,
+        http_code                INT              NULL,
+        user_identifier          NVARCHAR(100)    NULL,
+        metadata                 NVARCHAR(MAX)    NULL,
+        path                     NVARCHAR(500)    NULL,
+        exception_class          NVARCHAR(255)    NULL,
+        exception_message        NVARCHAR(MAX)    NULL,
+        exception_cause_class    NVARCHAR(255)    NULL,
+        exception_cause_message  NVARCHAR(MAX)    NULL,
+        exception_stack_trace    NVARCHAR(MAX)    NULL,
+        created_at               DATETIME2        NOT NULL CONSTRAINT df_application_logs_created_at DEFAULT (SYSUTCDATETIME())
+    );
+    CREATE INDEX ix_application_logs_correlation ON application_logs (correlation_id);
+    CREATE INDEX ix_application_logs_created_at ON application_logs (created_at);
+END
+GO
