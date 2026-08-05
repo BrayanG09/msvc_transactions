@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
-import hn.infatlan.msvc_transactions.jackson.SanitizeTextDeserializer;
+import hn.infatlan.msvc_transactions.util.jackson.SanitizeTextDeserializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 @Documented

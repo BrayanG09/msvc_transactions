@@ -1,4 +1,4 @@
-package hn.infatlan.msvc_transactions.jackson;
+package hn.infatlan.msvc_transactions.util.jackson;
 
 import hn.infatlan.msvc_transactions.util.InputSanitizer;
 import tools.jackson.core.JacksonException;

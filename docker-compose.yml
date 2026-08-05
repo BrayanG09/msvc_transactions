@@ -38,6 +38,7 @@ services:
       - ./docker/sqlserver/init-db.sh:/scripts/init-db.sh:ro
       - ./src/main/resources/schema.sql:/scripts/schema.sql:ro
       - ./src/main/resources/data.sql:/scripts/data.sql:ro
+      - ./src/main/resources/sp_estado_cuenta.sql:/scripts/sp_estado_cuenta.sql:ro
     entrypoint: ["/bin/bash", "/scripts/init-db.sh"]
     restart: "no"
     networks:

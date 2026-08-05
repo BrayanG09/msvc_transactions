@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum TypeLogCatalog {
     ACCOUNT("ACCOUNT", "Este tipo de log se produce en el modulo de cuentas."),
     TRANSACTION("TRANSACTION", "Este tipo de log se produce en el modulo de movimientos."),
+    STATEMENT("STATEMENT", "Este tipo de log se produce en el modulo de estados de cuenta."),
     VALIDATION("VALIDATION", "Este tipo de log se produce en la validación externa."),
     BUSINESS("BUSINESS", "Error o evento de regla de negocio."),
     TECHNICAL("TECHNICAL", "Error o evento técnico del sistema.");

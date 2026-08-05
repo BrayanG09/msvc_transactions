@@ -35,4 +35,7 @@ echo "==> Applying schema.sql..."
 echo "==> Applying data.sql (catalog seeds)..."
 "${SQLCMD}" -S "${SERVER}" -U sa -P "${SA_PASSWORD}" -C -d "${DB_NAME}" -i /scripts/data.sql
 
+echo "==> Applying sp_estado_cuenta.sql..."
+"${SQLCMD}" -S "${SERVER}" -U sa -P "${SA_PASSWORD}" -C -d "${DB_NAME}" -i /scripts/sp_estado_cuenta.sql
+
 echo "==> Database initialization completed successfully."
