@@ -31,6 +31,7 @@ import hn.infatlan.msvc_transactions.services.definitions.AccountService;
 import hn.infatlan.msvc_transactions.services.definitions.ClientService;
 import hn.infatlan.msvc_transactions.util.CustomUtils;
 import hn.infatlan.msvc_transactions.util.ExceptionFactory;
+import hn.infatlan.msvc_transactions.util.MaskingUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -154,7 +155,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountResponseDTO toResponse(Account account) {
         return AccountResponseDTO.builder()
                 .id(account.getId())
-                .accountNumber(account.getAccountNumber())
+                .accountNumber(MaskingUtils.maskAccountNumber(account.getAccountNumber()))
                 .clientId(account.getClient().getId())
                 .identityNumber(account.getClient().getIdentityNumber())
                 .fullName(account.getClient().getFullName())

@@ -22,6 +22,7 @@ import hn.infatlan.msvc_transactions.enums.ProcessLogCatalog;
 import hn.infatlan.msvc_transactions.enums.StatementCode;
 import hn.infatlan.msvc_transactions.enums.TypeLogCatalog;
 import hn.infatlan.msvc_transactions.util.ExceptionFactory;
+import hn.infatlan.msvc_transactions.util.MaskingUtils;
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -103,7 +104,7 @@ public class StatementProcedureRepository {
         }
 
         builder.accountId(toUuid(rs.getObject("account_id")))
-                .accountNumber(rs.getString("account_number"))
+                .accountNumber(MaskingUtils.maskAccountNumber(rs.getString("account_number")))
                 .from(rs.getDate("from_date").toLocalDate())
                 .to(rs.getDate("to_date").toLocalDate())
                 .openingBalance(rs.getBigDecimal("opening_balance"))
