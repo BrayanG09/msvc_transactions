@@ -7,6 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
@@ -14,6 +15,21 @@ spring:
     init:
       mode: never
 
+validation:
+  stub:
+    enabled: false
+  service:
+    url: http://localhost:9
+    connect-timeout: 1s
+    read-timeout: 1s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
 logging:
   level:
     root: WARN
+    hn.infatlan.msvc_transactions: WARN
