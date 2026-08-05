@@ -43,6 +43,12 @@ Detener:
 docker compose --env-file .env down
 ```
 
+- Ejecutar nuevamente:
+```bash
+bash docker/down.sh # En caso de que se encuentre en ejecucion
+bash docker/up.sh
+```
+
 ## Documentacion
 Swagger: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
@@ -93,6 +99,30 @@ curl -s -X POST http://localhost:8080/accounts/{accountId}/transactions \
 ```bash
 curl -s -X POST "http://localhost:8080/accounts/{accountId}/statement?from=2026-01-01&to=2026-12-31&page=0&size=20" \
   -H "identifier-user: 0803200200876"
+```
+
+## WireMock - Pruebas Aprobacion / Rechazo
+
+### Aprobacion
+Para realizar las pruebas de validacion por el servicio externo (El proyecto ya se encuentra contigurado asi) debe realizar lo siguiente:
+
+- Establecer la propiedad `VALIDATION_SERVICE_URL` del .env.example con el valor:
+```bash
+VALIDATION_SERVICE_URL=http://localhost:8080/external
+```
+
+- Ejecutar nuevamente:
+```bash
+bash docker/down.sh # En caso de que se encuentre en ejecucion
+bash docker/up.sh
+```
+
+## Rechazo
+Para realizar las pruebas de rechazo por el servicio externo debe realizar lo siguiente:
+
+- Establecer la propiedad `VALIDATION_SERVICE_URL` del .env.example con el valor:
+```bash
+VALIDATION_SERVICE_URL=http://wiremock:8080
 ```
 
 ## Observabilidad

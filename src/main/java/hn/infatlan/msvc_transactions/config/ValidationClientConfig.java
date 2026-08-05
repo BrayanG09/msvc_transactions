@@ -18,6 +18,7 @@ public class ValidationClientConfig {
                         @Value("${validation.service.read-timeout}") Duration readTimeout) {
                 java.net.http.HttpClient httpClient = java.net.http.HttpClient.newBuilder()
                                 .connectTimeout(connectTimeout)
+                                .version(java.net.http.HttpClient.Version.HTTP_1_1)
                                 .build();
 
                 JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
