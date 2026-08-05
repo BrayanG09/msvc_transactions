@@ -22,7 +22,9 @@ public enum AccountCode implements CodeCatalog {
         INVALID_INITIAL_BALANCE("ACC_400", HttpStatus.BAD_REQUEST, "Invalid Initial Balance",
                         "El saldo inicial debe ser mayor o igual a cero."),
         ACCOUNT_NUMBER_GENERATION_FAILED("ACC_500", HttpStatus.INTERNAL_SERVER_ERROR, "Account Number Generation Failed",
-                        "No fue posible generar un número de cuenta único. Intente nuevamente.");
+                        "No fue posible generar un número de cuenta único. Intente nuevamente."),
+        CLIENT_INACTIVE("ACC_403", HttpStatus.FORBIDDEN, "Client Inactive",
+                        "El cliente no se encuentra activo y no puede crear cuentas.");
 
         private final String code;
         private final HttpStatus httpCode;

@@ -30,33 +30,28 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Transactions", description = "Registro de movimientos CREDIT/DEBIT")
 public class TransactionController {
 
-    private final TransactionService transactionService;
+        private final TransactionService transactionService;
 
-    @PostMapping
-    @Operation(summary = "Registrar un movimiento", description = "Registra un CREDIT o DEBIT con idempotencia y validación externa.")
-    public ResponseEntity<ResponseDTO<TransactionResponseDTO>> createTransaction(
-            @PathVariable("accountId") UUID accountId,
-            @Valid @RequestBody CreateTransactionRequestDTO request,
-            @RequestHeader(RequestHeaders.IDENTIFIER_USER)
-            @NotBlank(message = "El encabezado identifier-user es obligatorio.")
-            String identifierUser,
-            @RequestHeader(RequestHeaders.IDEMPOTENCY_KEY)
-            @NotBlank(message = "El encabezado Idempotency-Key es obligatorio.")
-            String idempotencyKey,
-            @RequestHeader(value = RequestHeaders.CORRELATION_ID, required = false)
-            String correlationId) {
+        @PostMapping
+        @Operation(summary = "Registrar un movimiento", description = "Registra un CREDIT o DEBIT con idempotencia y validación externa.")
+        public ResponseEntity<ResponseDTO<TransactionResponseDTO>> createTransaction(
+                        @PathVariable("accountId") UUID accountId,
+                        @Valid @RequestBody CreateTransactionRequestDTO request,
+                        @RequestHeader(RequestHeaders.IDENTIFIER_USER) @NotBlank(message = "El encabezado identifier-user es obligatorio.") String identifierUser,
+                        @RequestHeader(RequestHeaders.IDEMPOTENCY_KEY) @NotBlank(message = "El encabezado Idempotency-Key es obligatorio.") String idempotencyKey,
+                        @RequestHeader(value = RequestHeaders.CORRELATION_ID, required = false) String correlationId) {
 
-        String effectiveCorrelationId = (correlationId == null || correlationId.isBlank())
-                ? UUID.randomUUID().toString()
-                : correlationId;
+                String effectiveCorrelationId = (correlationId == null || correlationId.isBlank())
+                                ? UUID.randomUUID().toString()
+                                : correlationId;
 
-        TransactionResponseDTO data = transactionService.createTransaction(
-                accountId,
-                request,
-                idempotencyKey,
-                identifierUser,
-                effectiveCorrelationId);
+                TransactionResponseDTO data = transactionService.createTransaction(
+                                accountId,
+                                request,
+                                idempotencyKey,
+                                identifierUser,
+                                effectiveCorrelationId);
 
-        return ResponseEntity.ok(ResponseDTO.of(TransactionCode.TRANSACTION_CONFIRMED, data));
-    }
+                return ResponseEntity.ok(ResponseDTO.of(TransactionCode.TRANSACTION_CONFIRMED, data));
+        }
 }

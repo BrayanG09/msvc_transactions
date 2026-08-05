@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public enum TransactionCode implements CodeCatalog {
         TRANSACTION_CONFIRMED("TR_200", HttpStatus.OK, "Transaction Confirmed",
                         "El movimiento fue confirmado exitosamente."),
-        INSUFFICIENT_FUNDS("TR_422", HttpStatus.UNPROCESSABLE_CONTENT, "Insufficient Funds",
+        INSUFFICIENT_FUNDS("TR_422", HttpStatus.CONFLICT, "Insufficient Funds",
                         "El saldo de la cuenta es insuficiente para realizar el débito."),
         INVALID_MOVEMENT_TYPE("TR_400", HttpStatus.BAD_REQUEST, "Invalid Movement Type",
                         "El tipo de movimiento no es válido. Use CREDIT o DEBIT."),

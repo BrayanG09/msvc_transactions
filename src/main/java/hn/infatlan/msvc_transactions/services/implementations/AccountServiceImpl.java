@@ -62,6 +62,13 @@ public class AccountServiceImpl implements AccountService {
                 request.getFullName(),
                 request.getEmail());
 
+        if (client.getStatus() == null || !CatalogAccountStatus.ACTIVE.name().equals(client.getStatus().getCode())) {
+            throw ExceptionFactory.business(
+                    AccountCode.CLIENT_INACTIVE,
+                    ProcessLogCatalog.CREATE_ACCOUNT,
+                    "El cliente con número de identidad " + request.getIdentityNumber() + " no está activo.");
+        }
+
         AccountStatus activeStatus = this.accountStatusRepository.findByCode(CatalogAccountStatus.ACTIVE.name())
                 .orElseThrow(() -> ExceptionFactory.business(
                         AccountCode.ACCOUNT_NOT_FOUND,
@@ -78,7 +85,9 @@ public class AccountServiceImpl implements AccountService {
 
         Account savedAccount = this.accountRepository.save(account);
 
-        this.createOpeningMovement(savedAccount, initialBalance);
+        if (initialBalance.compareTo(BigDecimal.ZERO) > 0) {
+            this.createOpeningMovement(savedAccount, initialBalance);
+        }
 
         return this.toResponse(savedAccount);
     }
