@@ -55,6 +55,35 @@ services:
     networks:
       - msvc-transactions-net
 
+  app:
+    build: .
+    image: msvc-transactions:local
+    container_name: msvc-transactions-app
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=${MSSQL_DATABASE:-msvc_transactions};encrypt=true;trustServerCertificate=true
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      VALIDATION_STUB_ENABLED: ${VALIDATION_STUB_ENABLED:-true}
+      VALIDATION_SERVICE_URL: ${VALIDATION_SERVICE_URL:-http://localhost:8080/external}
+      VALIDATION_CONNECT_TIMEOUT: ${VALIDATION_CONNECT_TIMEOUT:-2s}
+      VALIDATION_READ_TIMEOUT: ${VALIDATION_READ_TIMEOUT:-2s}
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    networks:
+      - msvc-transactions-net
+
 volumes:
   sqlserver_data:
 

@@ -1,0 +1,15 @@
+.git
+.gitattributes
+.gitignore
+.idea
+.vscode
+*.iml
+*.md
+.env
+.env.*
+!.env.example
+target
+docker/sqlserver
+docker/wiremock
+*.log
+.DS_Store

@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/accounts/{accountId}/statement")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "Statements", description = "Estado de cuenta vía procedimiento almacenado sp_estado_cuenta")
+@Tag(name = "Statements", description = "Estado de cuenta")
 public class StatementController {
 
     private final StatementService statementService;

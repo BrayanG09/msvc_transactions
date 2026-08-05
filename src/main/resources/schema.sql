@@ -63,6 +63,7 @@ BEGIN
         CONSTRAINT fk_clients_status FOREIGN KEY (status_id) REFERENCES client_status(id)
     );
     CREATE INDEX ix_clients_status ON clients (status_id);
+    CREATE UNIQUE INDEX uq_clients_email ON clients (email) WHERE email IS NOT NULL;
 END
 GO
 

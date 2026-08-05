@@ -18,7 +18,9 @@ public enum ClientCode implements CodeCatalog {
     CLIENT_INACTIVE("CLT_403", HttpStatus.FORBIDDEN, "Client Inactive",
             "El cliente se encuentra inactivo y no permite operaciones."),
     INVALID_IDENTITY("CLT_400", HttpStatus.BAD_REQUEST, "Invalid Identity",
-            "El número de identidad proporcionado no es válido.");
+            "El número de identidad proporcionado no es válido."),
+    DUPLICATE_EMAIL("CLT_409", HttpStatus.CONFLICT, "Duplicate Email",
+            "El correo electrónico ya está registrado para otro cliente.");
 
     private final String code;
     private final HttpStatus httpCode;

@@ -19,4 +19,12 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Optional<Client> findByIdentityNumber(@Param("identityNumber") String identityNumber);
 
     boolean existsByIdentityNumber(String identityNumber);
+
+    @Query("""
+            SELECT CASE WHEN EXISTS (
+                SELECT 1 FROM Client c
+                WHERE c.email IS NOT NULL AND LOWER(c.email) = LOWER(:email)
+            ) THEN true ELSE false END
+            """)
+    boolean existsByEmailIgnoreCase(@Param("email") String email);
 }

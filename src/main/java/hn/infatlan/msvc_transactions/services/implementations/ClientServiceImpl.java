@@ -36,6 +36,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     private Client createClient(String identityNumber, String fullName, String email) {
+        validateEmailAvailable(email);
+
         ClientStatus activeStatus = this.clientStatusRepository.findByCode(CatalogClientStatus.ACTIVE.name())
                 .orElseThrow(() -> ExceptionFactory.business(
                         ClientCode.CLIENT_NOT_FOUND,
@@ -50,5 +52,17 @@ public class ClientServiceImpl implements ClientService {
                 .build();
 
         return this.clientRepository.save(client);
+    }
+
+    private void validateEmailAvailable(String email) {
+        if (email == null || email.isBlank()) {
+            return;
+        }
+        if (clientRepository.existsByEmailIgnoreCase(email.trim())) {
+            throw ExceptionFactory.business(
+                    ClientCode.DUPLICATE_EMAIL,
+                    ProcessLogCatalog.FIND_OR_CREATE_CLIENT,
+                    "El correo electrónico ya pertenece a otro cliente.");
+        }
     }
 }

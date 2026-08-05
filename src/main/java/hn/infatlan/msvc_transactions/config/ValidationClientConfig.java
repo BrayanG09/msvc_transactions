@@ -11,21 +11,21 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class ValidationClientConfig {
 
-    @Bean
-    RestClient validationRestClient(
-            @Value("${validation.service.url}") String baseUrl,
-            @Value("${validation.service.connect-timeout}") Duration connectTimeout,
-            @Value("${validation.service.read-timeout}") Duration readTimeout) {
-        java.net.http.HttpClient httpClient = java.net.http.HttpClient.newBuilder()
-                .connectTimeout(connectTimeout)
-                .build();
+        @Bean
+        RestClient validationRestClient(
+                        @Value("${validation.service.url}") String baseUrl,
+                        @Value("${validation.service.connect-timeout}") Duration connectTimeout,
+                        @Value("${validation.service.read-timeout}") Duration readTimeout) {
+                java.net.http.HttpClient httpClient = java.net.http.HttpClient.newBuilder()
+                                .connectTimeout(connectTimeout)
+                                .build();
 
-        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
-        requestFactory.setReadTimeout(readTimeout);
+                JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
+                requestFactory.setReadTimeout(readTimeout);
 
-        return RestClient.builder()
-                .baseUrl(baseUrl)
-                .requestFactory(requestFactory)
-                .build();
-    }
+                return RestClient.builder()
+                                .baseUrl(baseUrl)
+                                .requestFactory(requestFactory)
+                                .build();
+        }
 }
