@@ -1,0 +1,465 @@
+{
+  "info": {
+    "_postman_id": "f08bb5fb-6c81-4aae-b06d-5d79e781d8e5",
+    "name": "msvc_transactions_infatlan",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23484641",
+    "_collection_link": "https://go.postman.co/collection/23484641-f08bb5fb-6c81-4aae-b06d-5d79e781d8e5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Create Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"identityNumber\": \"{{identifier_user}}\",\r\n  \"fullName\": \"Brayan Eludes Alvarez Gonzales\",\r\n  \"email\": \"10brayanalvarez@gmail.com\",\r\n  \"initialBalance\": 2500\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_local}}/accounts",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "accounts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Accounts By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url_local}}/accounts/{{account_id}}",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "accounts",
+                "{{account_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"CREDIT\",\r\n    \"amount\": 1000.00,\r\n    \"description\": \"Debito nomina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_local}}/accounts/{{account_id}}/transactions",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "accounts",
+                "{{account_id}}",
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statement",
+      "item": [
+        {
+          "name": "Statement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"CREDIT\",\r\n    \"amount\": 100,\r\n    \"description\": \"Deposito a cuenta\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_local}}/accounts/{{account_id}}/statement?from=2026-08-01&to=2026-08-05&page=0&size=10",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "accounts",
+                "{{account_id}}",
+                "statement"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2026-08-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-08-05"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Config Stub",
+      "item": [
+        {
+          "name": "Down",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url_local}}/external/admin/down",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "external",
+                "admin",
+                "down"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url_local}}/external/admin/up",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "external",
+                "admin",
+                "up"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "identifier-user",
+                "value": "{{identifier_user}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url_local}}/external/admin/status",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "external",
+                "admin",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Actuator",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/health",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Log Persisted",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics/application.logs.persisted?tag=level:WARN",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics",
+                "application.logs.persisted"
+              ],
+              "query": [
+                {
+                  "key": "tag",
+                  "value": "level:WARN"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Micrometer + Spring",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics/http.server.requests",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics",
+                "http.server.requests"
+              ],
+              "query": [
+                {
+                  "key": "tag",
+                  "value": "uri:/accounts/{accountId}/transactions",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "status:200",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "JVM",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics/jvm.memory.used",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics",
+                "jvm.memory.used"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Threads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics/jvm.threads.live",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics",
+                "jvm.threads.live"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Threads Daemon",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_local}}/actuator/metrics/jvm.threads.daemon",
+              "host": [
+                "{{url_local}}"
+              ],
+              "path": [
+                "actuator",
+                "metrics",
+                "jvm.threads.daemon"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url_local",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "identifier_user",
+      "value": "0803200000084"
+    },
+    {
+      "key": "account_id",
+      "value": "3f58a549-1cdf-47d3-b0ed-23dc8bcc60ea"
+    }
+  ]
+}
