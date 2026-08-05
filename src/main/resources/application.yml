@@ -22,6 +22,39 @@ spring:
 server:
   port: ${SERVER_PORT:8080}
 
+validation:
+  stub:
+    enabled: ${VALIDATION_STUB_ENABLED:true}
+  service:
+    url: ${VALIDATION_SERVICE_URL:http://localhost:8080/external}
+    connect-timeout: ${VALIDATION_CONNECT_TIMEOUT:2s}
+    read-timeout: ${VALIDATION_READ_TIMEOUT:2s}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      validationService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 2s
+  retry:
+    instances:
+      validationService:
+        maxAttempts: 3
+        waitDuration: 500ms
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -36,3 +69,4 @@ logging:
   level:
     root: INFO
     hn.infatlan.msvc_transactions: INFO
+    io.github.resilience4j: INFO

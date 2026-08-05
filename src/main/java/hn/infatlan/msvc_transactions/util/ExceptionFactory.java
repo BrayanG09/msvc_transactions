@@ -13,22 +13,24 @@ public final class ExceptionFactory {
     }
 
     public static InfatlanTransactionException business(CodeCatalog codeCatalog, ProcessLogCatalog process) {
-        return InfatlanTransactionException.builder()
-                .project(ProjectsCatalog.MSVC_TRANSACTIONS)
-                .type(TypeLogCatalog.ACCOUNT)
-                .process(process)
-                .level(LevelLogCatalog.WARN)
-                .codeCatalog(codeCatalog)
-                .build();
+        return business(codeCatalog, process, TypeLogCatalog.BUSINESS, null);
     }
 
     public static InfatlanTransactionException business(
             CodeCatalog codeCatalog,
             ProcessLogCatalog process,
             String customMessage) {
+        return business(codeCatalog, process, TypeLogCatalog.BUSINESS, customMessage);
+    }
+
+    public static InfatlanTransactionException business(
+            CodeCatalog codeCatalog,
+            ProcessLogCatalog process,
+            TypeLogCatalog type,
+            String customMessage) {
         return InfatlanTransactionException.builder()
                 .project(ProjectsCatalog.MSVC_TRANSACTIONS)
-                .type(TypeLogCatalog.ACCOUNT)
+                .type(type)
                 .process(process)
                 .level(LevelLogCatalog.WARN)
                 .codeCatalog(codeCatalog)
